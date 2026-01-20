@@ -76,7 +76,7 @@ plt.xlabel("Month", fontsize=12)
 plt.ylabel("Revenue (Million INR)", fontsize=12)
 plt.title("Monthly Revenue Trend", fontsize=14)
 
-# with the monthly revenue the trend show how the revenue growth peak in 2nd month and then it lags but not that much
+# with the monthly revenue the trend show how the revenue growth peak in 2nd month and then it slight down
 plt.figure(figsize=(8,6))
 plt.plot(g4.index,g4.values)
 plt.xlabel("month")
