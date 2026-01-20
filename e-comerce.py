@@ -1,5 +1,5 @@
 import pandas as pd
-
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("Amazon Sale Report.csv")
 
@@ -53,16 +53,34 @@ g1["Unshipped_pct"] = (
 
 g2 = df.groupby("month")["B2B"].value_counts().unstack(fill_value=0)
 
-print(df["currency"].value_counts())
-g3 = (df[df["currency"].isin(["INR"])]
-    .groupby("month")["Amount"]
-    .sum()
-)#from month 4 got very much growth in revenue amount
+#print(df["currency"].value_counts())
 
+
+g3 = (df[df["currency"].isin(["INR"])]
+    .groupby("month",as_index=True)["Amount"]
+    .sum()
+    .sort_index()
+)#from month 4 got very much growth in revenue amount
+g3 = g3.sort_index()
 g4 = df.groupby("month")["Amount"].mean()
 #all the month of observation got no profit per order growth
 print(g1)
 print(g2)
 print(g3)
 print(g4)
+g3_million = g3 / 1_000_000
 
+plt.figure(figsize=(10,6))
+plt.plot(g3_million.index, g3_million.values, marker="o")
+plt.xlabel("Month", fontsize=12)
+plt.ylabel("Revenue (Million INR)", fontsize=12)
+plt.title("Monthly Revenue Trend", fontsize=14)
+
+# with the monthly revenue the trend show how the revenue growth peak in 2nd month and then it lags but not that much
+plt.figure(figsize=(8,6))
+plt.plot(g4.index,g4.values)
+plt.xlabel("month")
+plt.ylabel("Revenue per order")
+plt.title("Monthly revenue per order")
+
+plt.show()
